@@ -17,7 +17,8 @@ load_dotenv()
 
 # Get API configuration from environment variables
 API_HOST = os.getenv("API_HOST", "0.0.0.0")
-API_PORT = int(os.getenv("API_PORT", "8000"))
+# Use PORT env var for compatibility with Render, falling back to API_PORT if available, then 8000
+API_PORT = int(os.getenv("PORT", os.getenv("API_PORT", "8000")))
 
 # Initialize the database
 from heimdal_data.database.database import init_db

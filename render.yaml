@@ -1,0 +1,64 @@
+# Render Blueprint API
+# https://render.com/docs/blueprint-spec
+
+services:
+  # FastAPI service
+  - type: web
+    name: heimdal-some-data
+    env: python
+    region: frankfurt  # Change to a region close to your users if needed
+    plan: starter  # Choose the plan that fits your needs
+    buildCommand: |
+      pip install -r heimdal_data/requirements.txt
+    startCommand: cd heimdal_data && python main.py
+    healthCheckPath: /health
+    # Uncomment to enable automatic deploys 
+    # autoDeploy: false
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.0
+      - key: TESTING
+        value: false
+      - key: API_HOST
+        value: 0.0.0.0
+      # Database configuration (use your own values)
+      - key: DB_HOST
+        sync: false  # User needs to provide this manually
+      - key: DB_PORT
+        sync: false
+      - key: DB_NAME
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      # Social Media API Keys (user needs to provide these)
+      - key: TWITTER_API_KEY
+        sync: false
+      - key: TWITTER_API_SECRET
+        sync: false
+      - key: TWITTER_ACCESS_TOKEN
+        sync: false
+      - key: TWITTER_ACCESS_SECRET
+        sync: false
+      - key: TWITTER_BEARER_TOKEN
+        sync: false
+      - key: FACEBOOK_APP_ID
+        sync: false
+      - key: FACEBOOK_APP_SECRET
+        sync: false
+      - key: FACEBOOK_ACCESS_TOKEN
+        sync: false
+      - key: TIKTOK_API_KEY
+        sync: false
+      - key: TIKTOK_API_SECRET
+        sync: false
+      - key: SEO_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+
+# Uncomment this if you want to create a new PostgreSQL database
+# databases:
+#   - name: heimdal-db
+#     plan: starter

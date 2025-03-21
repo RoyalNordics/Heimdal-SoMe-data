@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 import logging
 
 from heimdal_data.api.routes import router as data_router, initialize_collectors, fetch_data_task
+from heimdal_data.api.routes_auth import router as auth_router
 from heimdal_data.database.database import init_db, check_db_connection
 
 # Load environment variables
@@ -42,6 +43,7 @@ app.add_middleware(
 
 # Include routers
 app.include_router(data_router)
+app.include_router(auth_router)
 
 # Create scheduler
 scheduler = AsyncIOScheduler()
@@ -112,12 +114,18 @@ async def root():
     return {
         "message": "Welcome to the Heimdal SoMe Data API",
         "version": "1.0.0",
-        "endpoints": [
+        "data_endpoints": [
             "/api/data/trends",
             "/api/data/engagement",
             "/api/data/seo",
             "/api/data/fetch"
-        ]
+        ],
+        "auth_endpoints": [
+            "/api/auth/callback",
+            "/api/auth/uninstall",
+            "/api/auth/data-deletion"
+        ],
+        "docs": "/docs"
     }
 
 @app.get("/health")
